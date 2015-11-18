@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    app: require('./bower.json').appPath || 'src',
+    app: 'src',
     dist: 'target/classes/web'
   };
 
@@ -27,10 +27,6 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },
       js: {
         files: ['<%= stratio.app %>/scripts/{,*/}*.js'],
         options: {
@@ -94,8 +90,8 @@ module.exports = function (grunt) {
             return [
               connect.static('.tmp'),
               connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
+                '/node_modules',
+                connect.static('./node_modules')
               ),
               connect().use(
                 '/app/styles',
@@ -115,8 +111,8 @@ module.exports = function (grunt) {
               connect.static('.tmp'),
               connect.static('test'),
               connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
+                '/node_modules',
+                connect.static('./node_modules')
               ),
               connect.static(appConfig.app)
             ];
@@ -343,7 +339,7 @@ module.exports = function (grunt) {
         dist: [
           'sass:dist'
         ]
-    },
+    }
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -354,7 +350,6 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'wiredep',
       'concurrent:server',
       'configureProxies:server',
       'autoprefixer:server',
@@ -369,7 +364,6 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'wiredep',
     'concurrent:test',
     'autoprefixer',
     'connect:test'
@@ -383,7 +377,6 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'wiredep',
       'useminPrepare',
       'concurrent:dist',
       'autoprefixer',
