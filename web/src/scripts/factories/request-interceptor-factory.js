@@ -27,6 +27,7 @@
       'responseError': function (rejection) {
         switch (rejection.status) {
           case 0:
+          case 500:
           {
             $rootScope.error = "_UNAVAILABLE_SERVER_ERROR_";
             break;

@@ -174,10 +174,57 @@ describe('policies.wizard.service.utils-service', function () {
     });
   });
 
-  it("Should be able to convert dotted properties to json properties", function(){
-    var inputJson = {"writer":{},"writer.outputs": ["fake output1", "fake output 2"]};
+  it("Should be able to convert dotted properties to json properties", function () {
+    var inputJson = {
+      "writer": {},
+      "writer.outputs": ["fake output1", "fake output 2"],
+      "reader": {},
+      "reader.file": "file1.txt"
+    };
     var result = service.convertDottedPropertiesToJson(angular.copy(inputJson));
 
     expect(result.writer.outputs).toEqual(inputJson["writer.outputs"]);
+    expect(result.reader.file).toEqual(inputJson["reader.file"]);
+  });
+
+  describe("Should be able to return a string in camel case", function () {
+    var inputString = "a_fake_string";
+    it("if last param is true, first letter is uppercase", function () {
+
+      var result = service.getInCamelCase(inputString, '_', true);
+
+      expect(result[0]).toBe(inputString[0].toUpperCase());
+    });
+
+    it("if last param is false, first letter is lowercase", function () {
+      var result = service.getInCamelCase(inputString, '_', false);
+
+      expect(result[0]).toBe(inputString[0].toLowerCase());
+    });
+
+    it ("should split the string using the separator is introduced as param", function(){
+      var result = service.getInCamelCase(inputString, ' ', false);
+
+      expect(result).toBe(inputString);
+
+      var result = service.getInCamelCase(inputString, '_', false);
+
+      expect(result).toBe('aFakeString');
+    });
+
+    it ("if introduced string or separator are not introduced, string is returned without any change", function(){
+      var result = service.getInCamelCase(null, null, false);
+
+      expect(result).toBe(null);
+
+      var result = service.getInCamelCase(inputString, null, false);
+
+      expect(result).toBe(inputString);
+
+      var result = service.getInCamelCase(null, '_', false);
+
+      expect(result).toBe(null);
+
+    })
   });
 });

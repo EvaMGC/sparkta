@@ -73,7 +73,7 @@
         var selectedModel = vm.policy.transformations[selectedModelPosition];
         ModelFactory.setModel(selectedModel, selectedModelPosition);
       } else {
-          ModelService.resetModel(vm.template);
+        ModelService.resetModel(vm.template);
       }
       ModelFactory.updateModelInputs(vm.policy.transformations);
     }
@@ -82,8 +82,11 @@
       if (vm.policy.transformations.length == 0) {
         PolicyModelFactory.setError("_TRANSFORMATION_STEP_MESSAGE_");
       } else {
-        PolicyModelFactory.setError("_CHANGES_WITHOUT_SAVING_ERROR_");
+        if (vm.isActiveModelCreationPanel() || vm.isActiveTriggerCreationPanel()) {
+          PolicyModelFactory.setError("_CHANGES_WITHOUT_SAVING_ERROR_");
+        }
       }
+
       if (vm.isActiveModelCreationPanel()) {
         vm.modelAccordionStatus[vm.modelAccordionStatus.length - 1] = true;
       }
