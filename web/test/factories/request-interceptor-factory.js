@@ -29,7 +29,7 @@ describe('policies.factories.request-interceptor-factory', function () {
   }));
 
 
-  it("should be able to update web error when a http request fails and its code is equal to 0 or 500", function () {
+  it("should be able to update web error when a http request fails and its code is equal to 0 or 503", function () {
 
     httpBackend.when('GET', '/fragment/input/' + fragmentTypeIdJSON.id).respond(0);
     spyOn(factory, 'responseError').and.callThrough();
@@ -39,7 +39,7 @@ describe('policies.factories.request-interceptor-factory', function () {
     expect(factory.responseError).toHaveBeenCalled();
     expect(rootScope.error).toBe("_UNAVAILABLE_SERVER_ERROR_");
 
-    httpBackend.when('GET', '/fragment/input/' + fragmentTypeIdJSON.id).respond(500);
+    httpBackend.when('GET', '/fragment/input/' + fragmentTypeIdJSON.id).respond(503);
     srv.getFragmentById().get(fragmentTypeIdJSON);
     rootScope.$digest();
     httpBackend.flush();
