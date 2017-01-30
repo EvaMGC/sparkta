@@ -36,6 +36,7 @@
     vm.stopPolicy = stopPolicy;
     vm.getPoliciesStatus = getPoliciesStatus;
     vm.downloadPolicy = downloadPolicy;
+    vm.getLastError = getLastError;
 
     /////////////////////////////////
 
@@ -142,6 +143,14 @@
           'get': {method: 'GET'},
           timeout: apiConfigSettings.timeout
         });
+    }
+
+    function getLastError() {
+      return $resource('/policy/error/:id', {id: '@id'},
+          {
+            'get': {method: 'GET'},
+            timeout: apiConfigSettings.timeout
+          });
     }
   }
 })();
